@@ -2,8 +2,6 @@ package userinterface;
 
 import logic.Sudoku;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
@@ -14,19 +12,9 @@ public class ConsoleInterface {
     private Scanner in;
     private final Sudoku s;
 
-    public ConsoleInterface() throws FileNotFoundException {
+    public ConsoleInterface() {
         this.s = new Sudoku();
-        this.in = new Scanner(new File("/home/jason/IdeaProjects/SudokuSolver/src/userinterface/testboard.txt"));
-        // Read contents of file to sudoku board. First line is number of numbers initially given, followed by the cell
-        // locations and contents
-        int numbers = in.nextInt();
-        for (int i = 0; i < numbers; i++) {
-            int row = in.nextInt();
-            int col = in.nextInt();
-            int num = in.nextInt();
-            s.changeNumber(row, col, num);
-        }
-        in = new Scanner(System.in);
+        this.in = new Scanner(System.in);
 
     }
 
@@ -34,7 +22,7 @@ public class ConsoleInterface {
         while(true) {
             printMenu();
             int selection = in.nextInt();
-            if (selection == 3) {
+            if (selection == 6) {
                 break;
             }
             execute(selection);
@@ -47,19 +35,46 @@ public class ConsoleInterface {
                 System.out.println(s);
                 break;
             case 2:
+                insertNumbers();
+                break;
+            case 3:
+                System.out.print("Enter (row col num): ");
+                int row = in.nextInt();
+                int col = in.nextInt();
+                int num = in.nextInt();
+                s.changeNumber(row, col, num);
+                break;
+            case 4:
                 if (s.solve()) {
                     System.out.println("Success!");
                 } else {
-                    System.out.println("You'll probably get a stack overflow before you see this message.");
+                    System.out.println("Failure :(");
                 }
                 break;
+            case 5:
+                s.clear();
+        }
+    }
+
+    private void insertNumbers() {
+        System.out.print("How many numbers are you entering? ");
+        int amount = in.nextInt();
+        for (int i = 0; i < amount; i++) {
+            System.out.print("Enter (row col num): ");
+            int row = in.nextInt();
+            int col = in.nextInt();
+            int num = in.nextInt();
+            s.changeNumber(row, col, num);
         }
     }
 
     private void printMenu() {
         System.out.println("Choose an operation by number");
         System.out.println("1- Print board");
-        System.out.println("2- Attempt solution");
-        System.out.println("3- Quit");
+        System.out.println("2- Insert numbers");
+        System.out.println("3- Change number");
+        System.out.println("4- Attempt solution");
+        System.out.println("5- Clear board");
+        System.out.println("6- Quit");
     }
 }
