@@ -248,4 +248,15 @@ public class Sudoku {
     public void changeNumber(int row, int col, int num) {
         board[row][col] = num;
     }
+
+    /**
+     * Sets every cell on the board to 0
+     */
+    public void clear() {
+        for (int i = 0; i < n * n; i++) {
+            for (int j = 0; j < n * n; j++) {
+                board[i][j] = 0;
+            }
+        }
+    }
 }
