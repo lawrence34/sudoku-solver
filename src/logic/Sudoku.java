@@ -51,6 +51,14 @@ public class Sudoku {
     }
 
     /**
+     * Checks to see if the current game is a Hex Sudoku game
+     * @return True if game is in hex base
+     */
+    public boolean isHex() {
+        return n == 4;
+    }
+
+    /**
      * Checks to see if specified board is a legal sudoku solution
      * @param check Sudoku board to be checked
      * @return True if solution is legal, false otherwise
@@ -218,10 +226,21 @@ public class Sudoku {
     @Override
     public String toString() {
         StringBuilder prettyBoard = new StringBuilder();
-        String blockDivider = "------+-------+------\n";
+        String blockDivider = "";
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                blockDivider += "--";
+            }
+            if (i != n - 1) {
+                blockDivider += "+-";
+            } else {
+                blockDivider += "\n";
+            }
+        }
         for (int i = 0; i < n * n; i++) {
             for (int j = 0; j < n * n; j++) {
-                prettyBoard.append(board[i][j]);
+                String next = Integer.toHexString(board[i][j]).toUpperCase(); // works properly on 9x9 and 16x16 games
+                prettyBoard.append(next);
                 prettyBoard.append(' ');
                 if (j % n == n - 1 && j != n * n - 1) {
                     prettyBoard.append("| ");
